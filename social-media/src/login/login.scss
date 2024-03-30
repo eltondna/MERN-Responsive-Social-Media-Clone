@@ -1,0 +1,78 @@
+.login{
+    background-color: rgb(193, 195, 255);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .card{
+        width: 50%;
+        background-color: white;
+        display: flex;
+        border-radius: 20px;
+        min-height: 600px;
+        overflow: hidden;
+        .left{
+            padding: 50px;
+            flex: 1;
+            background: linear-gradient(rgba(39,11,96,0.5),rgba(39,11,96,0.5)), 
+                        url("https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600"), center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            gap: 30px;
+            h1{
+                font-size: 60px;
+                line-height: 60px;
+                font-weight: bold;
+            }
+            p{}
+            span{
+                font-size: 14px;
+            }
+            button{
+                background-color: white;
+                color: rebeccapurple;
+                font-weight: bold;
+                width: 60%;
+                padding: 10px;
+                cursor: pointer;
+
+            }
+        }
+        .right{
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            justify-content: center;
+            h1{                
+                font-size: 30px;
+                line-height: 60px;
+                font-weight: bold;}
+            form{
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+                input{
+                    color: lightgray;
+                    border: none;
+                    border-bottom: 1px solid lightgray;
+                    padding: 20px 10px;
+                    width: 80%;
+                }
+                button{
+                    background-color: #938eef;
+                    color: white;
+                    font-weight: bold;
+                    width: 60%;
+                    padding: 10px;
+                    cursor: pointer;
+                }
+            }
+    
+        }
+    }
+    
+}

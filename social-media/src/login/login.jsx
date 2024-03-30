@@ -1,31 +1,30 @@
-import '../index.css'
+import './login.scss'
 const Login = ()=>{
     return (
         // Parent / Page Container
-        <div class="w-screen h-screen bg-[#bec3ff] flex items-center justify-center">
+        <div class="login">
             {/* Card */}
-            <div class="flex w-[50%] h-[50%] min-h-200 bg-white rounded-md ">
+            <div class="card">
                 {/* Left */}
-                <div class="w-[50%] flex-wrap: wrap;">
-                    <h1 class="font-bold text-[30px]">Hello World</h1>
+                <div class="left">
+                    <h1 >Hello World</h1>
                     <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ut tortor tempor venenatis. Quisque
-        in vulputate felis. Fusce sit amet eros semper, venenatis risus vitae, maximus velit. Integer aliquam, mi nec
-        tincidunt posuere, nunc quam fringilla orci, nec lacinia erat ligula vel tellus. Aliquam ullamcorper eros
-        lectus.
+                    in vulputate felis.
                     </p>
                     <span>Don't you have an account? </span>
                     <button> Register</button>
                 </div>
                 {/* Right */}
 
-                <div class="w-[50%]">
-                    <h1 class="font-bold  text-[30px]">Login</h1>
+                <div class="right">
+                    <h1 class="">Login</h1>
                     <form>
-                        <input type="" name="Username"/>
-                        <input type="" name="Password"/>
+                        <input class='' placeholder='Username' type="text" name="Username"/>
+                        <input class='' placeholder='Password' type="password" name="Password"/>
                         <button>Login</button>
                     </form>
+
                 </div>
 
             </div>
