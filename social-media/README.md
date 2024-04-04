@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+### Frontend Social Media Clone - Learning Key Point
+## React-Router-DOM
+1. Routing diff page
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    1. Create router 
+        const router = createBrowserRouter([
+        {
+            path: "/",
+            element: (
+            <ProtectedRoute>
+                <Layout/>
+            </ProtectedRoute>
+            ),
+        ...
+        }
+        ])
 
-## Available Scripts
+    2. Apply to app return statement
+        return (
+            <RouterProvider router={router} /> 
+        );
 
-In the project directory, you can run:
+2. <Outlet/> to create reusable page template 
+    2.1: Create a page template layout 
+    
+    const Layout = ()=>{
+            return (
+                <div>
+                <Navbar />
+                <div style={{display: "flex"}}>
+                    <Leftbar/>
+                    <div style={{flex: 6 }}>
+                    <Outlet/>
+                    </div>
+                    <Rightbar/>
+                </div>
+                </div>
+            )
+    }
+    2.2: Apply the layout to router
 
-### `npm start`
+        {
+            path: "/",
+            element: (
+            <ProtectedRoute>
+                <Layout/>
+            </ProtectedRoute>
+            ),
+            children: [
+            {
+                path:"/",
+                element: <Home/>
+            },
+            {
+                path: "/profile/:id",
+                element: <Profile/>
+            }
+            ]
+        }  
+    - The children tag specify pages apply to the layout 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Frontend CSS design key point
 
-### `npm test`
+# Box Shadowing - Google Box shadow generator
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# -webkit: The -webkit prefix on CSS selectors are properties that only this engine is intended to process, very similar to -moz properties. Many of us are hoping this goes away, for example -webkit-border-radius will be replaced by the standard border-radius and you won't need multiple rules for the same thing for multiple browsers. This is really the result of "pre-specification" features that are intended to not interfere with the standard version when it comes about.
 
-### `npm run build`
+i.e. -webkit-scrollbar, -webkit-box-shadow 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# position: sticky 
+- Allow certain element position always stick to their position i.e. on-scroll
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# position: absolute
+- When you want to make element position at certain place, you will use it.
+- But at the same time you need to specify the parent element to be position relative !
+- Example: Right bar online friends
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
