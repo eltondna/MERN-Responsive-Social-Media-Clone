@@ -12,7 +12,11 @@ import Messages from "../../assets/10.png"
 import Tutorials from "../../assets/11.png"
 import Courses from "../../assets/12.png"
 import Fund from "../../assets/13.png"
+import { useContext } from "react"
+import { AuthContext } from "../../context/authContext"
 const Leftbar = ()=>{
+    const {currentUser} = useContext(AuthContext)
+
     return (
         <div className="leftbar">
             <div className="container">
@@ -20,8 +24,8 @@ const Leftbar = ()=>{
                 <div className="menu">
 
                     <div className="user">
-                        <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                        <span> Elton Wong</span>
+                        <img src={currentUser.profilePic} alt="" />
+                        <span> {currentUser.name}</span>
                     </div>
 
                     <div className="item">

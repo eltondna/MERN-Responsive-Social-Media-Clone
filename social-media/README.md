@@ -38,7 +38,6 @@
             )
     }
     2.2: Apply the layout to router
-
         {
             path: "/",
             element: (
