@@ -76,3 +76,8 @@ i.e. -webkit-scrollbar, -webkit-box-shadow
 - Example: Right bar online friends
 
 
+
+# NavBar Problem
+
+# Use Zindex to solve it!!!!!!
+
