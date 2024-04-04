@@ -40,4 +40,18 @@ $themes:(
   }
   @function themed($key){
     @return map-get($theme-map, $key)
+};
+
+
+@mixin mobile{
+  @media(max-width: 430px){
+    @content
+  }
+};
+
+
+@mixin GalaxyS20{
+  @media(max-width: 360){
+    @content
+  }
 }
