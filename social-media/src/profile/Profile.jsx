@@ -1,8 +1,7 @@
 
-
 const Profile = ()=>{
     return (
-        <div className="login"> Profile </div>
+        <div className="profile"> Profile </div>
     )
 }
 export default Profile;

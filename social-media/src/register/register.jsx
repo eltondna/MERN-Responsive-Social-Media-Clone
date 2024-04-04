@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './register.scss'
 const Register = ()=>{
     return (
@@ -13,6 +14,7 @@ const Register = ()=>{
                         <input class='' placeholder='Email' type="text" name="email"/>
                         <input class='' placeholder='Password' type="password" name="Password"/>
                         <input class='' placeholder='Password' type="text" name="name"/>
+                    
                         <button>Register</button>
                     </form>
                 </div>
@@ -24,7 +26,9 @@ const Register = ()=>{
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet justo ut tortor tempor venenatis. Quisque
                     in vulputate felis.
                     </p>
-                    <button> Login</button>
+                    <Link to="/login">
+                        <button> Login</button>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 import './login.scss'
+import { Link } from 'react-router-dom';
 const Login = ()=>{
     return (
         // Parent / Page Container
@@ -13,7 +14,9 @@ const Login = ()=>{
                     in vulputate felis.
                     </p>
                     <span>Don't you have an account? </span>
-                    <button> Register</button>
+                    <Link to="/register">
+                        <button> Register</button>
+                    </Link>
                 </div>
                 {/* Right */}
 
