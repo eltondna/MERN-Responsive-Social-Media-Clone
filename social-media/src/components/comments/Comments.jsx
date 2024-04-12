@@ -1,34 +1,70 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import "./Comments.scss";
 import { AuthContext } from "../../context/authContext";
+import {useQuery} from '@tanstack/react-query'
+import axios from 'axios'
+import moment, { parseTwoDigitYear } from 'moment'
+import { BASE_URL } from "../../config";
+import {
+    useMutation,
+    useQueryClient,
+  } from '@tanstack/react-query'
 
-const Comments = ()=>{
+
+const Comments = ({postId})=>{
     const {currentUser} = useContext(AuthContext)
+    const [comment, setComment] = useState('')
 
-
-    const comments = [
-        {
-            id: 1,
-            desc: "Pretty !!!!! :)",
-            name: 'Elton Wong',
-            profilePic:'https://images.unsplash.com/photo-1539635278303-d4002c07eae3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-        },
-        {
-            id: 2,
-            desc: "Why no me lol. You guys dump me and i now staying at home with my mom doing tai chi",
-            name: 'Justin Yaam',
-            profilePic:"https://images.unsplash.com/photo-1539635278303-d4002c07eae3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    const { isPending, isError, data, error } = useQuery({
+        queryKey: ['comments'],
+        queryFn: async ()=>{
+            console.log(postId)
+            const res = await axios.get(BASE_URL + '/comments?postId='+postId)
+            console.log(res.data)
+            return res.data
         }
+    })
 
-    ]
+    const queryClient = useQueryClient();
+    const addComment = async () =>{
+        const data = {
+            desc: comment,
+            postId: postId
+        }
+        return await axios.post(BASE_URL + '/comments',data);
+    }
+
+    // Mutations
+    const mutation = useMutation({
+        mutationFn: addComment,
+        onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries({ queryKey: ['comments'] })
+        },
+  })
+
+  const handleClick = async (e)=>{
+        e.preventDefault();
+        console.log(comment)
+        console.log(postId)
+        await mutation.mutate()
+        setComment('')
+  }
+      
+
+
     return(
         <div className="comments">
             <div className="write">
                 <img src={currentUser.profilePic} alt="" />
-                <input type="text" placeholder="write a comment"/>
-                <button>Send</button>
+                <input type="text" placeholder="write a comment" 
+                        onChange={(e) => setComment(e.target.value)}
+                        value={comment}/>
+                <button onClick={handleClick}>Send</button>
             </div>
-            {comments.map(comment =>{
+            {
+            isPending ? "Loading" :
+            data.map(comment =>{
                 return(
                 <div className="comment">
                      <img src={comment.profilePic} alt="" />
@@ -37,7 +73,7 @@ const Comments = ()=>{
                         <span>{comment.name}</span>
                         <p>{comment.desc}</p>
                     </div>
-                    <span className="date">1 hour ago</span>
+                    <span className="date">{moment(comment.createDate).fromNow()}</span>
                 </div>
                 )
             })}

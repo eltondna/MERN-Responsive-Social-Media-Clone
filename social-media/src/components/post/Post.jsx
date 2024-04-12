@@ -7,6 +7,8 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { Link } from '@mui/material';
 import Comments from '../comments/Comments';
 import { useState } from 'react';
+
+import moment from "moment"
 const Post = ({post})=>{
     // TEM
     const liked = false
@@ -21,11 +23,10 @@ const Post = ({post})=>{
                             <Link to={`/profile/${post.userId}`} style={{textDecoration: 'none', color: 'inherit'}}>
                                 <span className='name'> {post.name}</span>
                             </Link>
-                            <span className='date'>1 min ago</span>
+                            <span className='date'>{moment(post.createDate).fromNow()}</span>
                         </div>
                     </div>
                     <MoreHorizOutlinedIcon/>
-
                 </div>
 
                 <div className="content">
@@ -52,7 +53,7 @@ const Post = ({post})=>{
                     </div>
                 </div>
 
-                {commentOpen && <Comments/>}
+                {commentOpen && <Comments postId={post.id}/>}
             </div>
         </div>
     )
