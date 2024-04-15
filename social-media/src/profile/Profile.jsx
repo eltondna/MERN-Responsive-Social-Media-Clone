@@ -8,18 +8,75 @@ import XIcon from '@mui/icons-material/X';
 import PlaceIcon from '@mui/icons-material/Place';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import {AuthContext} from "../context/authContext"
 import Posts from "../components/posts/Posts"
+import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
+import { BASE_URL } from '../config';
+import axios from 'axios'
+import { useLocation } from 'react-router-dom';
+import Update from '../update/Update';
+
 const Profile = ()=>{
-    const {currentUser} = useContext(AuthContext)
+    const {currentUser } = useContext(AuthContext)
+    const [openUpdate, setOpenUpdate] = useState(false)
+
+    const userId = parseInt(useLocation().pathname.split("/")[2])
+    const queryClient = useQueryClient();
+
+    // Fetch User Data
+    const { isPending, isError, data, error } = useQuery({
+        queryKey: ['user'],
+        queryFn: async ()=>{
+            const res = await axios.get(BASE_URL + '/users/find/'+userId);
+            // console.log(res.data)
+            return res.data;
+        }
+    })
+
+    // Fetch Relationship Info
+    const { data: relationshipData, isPending: IsRIPending } = useQuery({
+        queryKey: ['relationships'],
+        queryFn: async ()=>{
+            const res = await axios.get(BASE_URL + '/relationships?followedId='+userId);
+            // console.log(res.data)
+            return res.data;
+        }
+    })
+
+    // Update Relationship State
+    const handleFollowAction = async ()=>{
+        const payload = {
+            userId: userId
+        }
+
+        if (relationshipData.includes(currentUser.id)){
+            return await axios.post(BASE_URL + '/relationships/unfollow',payload); 
+        }
+        return await axios.post(BASE_URL + '/relationships', payload);  
+    }
+    // Mutations
+    const mutation = useMutation({
+        mutationFn: handleFollowAction,
+        onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries({ queryKey: ['relationships'] })
+        },
+    })
+
+    const handleClick = async ()=>{
+        await mutation.mutate();
+    }
+
+    if (isPending) {
+        return <div>Loading...</div>;
+    }
+    
     return (
         <div className="profile"> 
             <div className="images">
-                <img src="https://images.pexels.com/photos/1250346/pexels-photo-1250346.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
-                alt="" className="cover" />
-                <img src={currentUser.profilePic} alt="" className="profilePic" />
+                <img src={data.coverPic} alt="" className="cover" />
+                <img src= {data.profilePic} alt="" className="profilePic" />
             </div>
 
             <div className="profileContainer">
@@ -40,30 +97,41 @@ const Profile = ()=>{
                         <a href='www.pinterest.com'>
                             <PinterestIcon fontSize='large'/>
                         </a>
-
                     </div>
+
                     <div className="center">
-                        <span>Elton Wong</span>
+                        <span>{data.name}</span>
                         <div className="info">
                             <div className="item">
                                 <PlaceIcon />
-                                <span>USA</span>
+                                <span>{data.city}</span>
                             </div>
                             <div className="item">
                                 <LanguageIcon />
-                                <span>elton.com</span>
+                                <span>{data.website}</span>
                             </div>
                         </div>
-                        <button>Follow</button>
+                        { IsRIPending ? "Loading" 
+                            :currentUser.id == userId 
+                            ? <button onClick={()=>setOpenUpdate(true)}>Update</button>
+                            :<button onClick={handleClick}>
+                            {
+                                relationshipData.includes(currentUser.id)
+                                ? "Following"
+                                :"Follow"
+                            }    
+                            </button>
+                        }
                     </div>
-
                     <div className="right">
                         <EmailOutlinedIcon/>
                         <MoreVertIcon/>
                     </div>
                 </div>
-                <Posts/>
+                {/* NEED AMENDMENT TO FETCH SPECIFIC USER POSTS */}
+                <Posts id={userId}/>
             </div>
+            {openUpdate && <Update setOpenUpdate={setOpenUpdate}/>}
         </div>
     )
 }
